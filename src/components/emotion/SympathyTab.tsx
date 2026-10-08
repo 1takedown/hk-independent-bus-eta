@@ -1,6 +1,7 @@
 import { Box, SxProps, Theme } from "@mui/material";
 import { useContext } from "react";
 import AppContext from "../../context/AppContext";
+import { publicUrl } from "../../utils";
 
 const SYMPATHY_IMAGE_COUNT = 34;
 
@@ -18,9 +19,9 @@ const SympathyTab = () => {
 
   return (
     <Box sx={rootSx}>
-      <img src={`/img/sympathy/${imgIdx}.png`} style={{ width: "100%" }} />
+      <img src={publicUrl(`/img/sympathy/${imgIdx}.png`)} style={{ width: "100%" }} />
       <img
-        src={`/img/sympathy/logo.png`}
+        src={publicUrl("/img/sympathy/logo.png")}
         style={{
           width: 56,
           height: 56,
@@ -38,14 +39,14 @@ const SympathyTab = () => {
         }}
       >
         <img
-          src={`/img/sympathy/text.png`}
+          src={publicUrl("/img/sympathy/text.png")}
           style={{
             width: 231,
             height: 28,
           }}
         />
         <img
-          src={`/img/sympathy/button.png`}
+          src={publicUrl("/img/sympathy/button.png")}
           style={{
             width: 28,
             height: 28,

@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { IosShare, MoreVert } from "@mui/icons-material";
+import { publicUrl } from "../../utils";
 
 interface InstallDialogProps {
   open: boolean;
@@ -41,7 +42,7 @@ const InstallDialog = ({ open, handleClose }: InstallDialogProps) => {
               }
             >
               <img
-                src="/img/google-play-badge.png"
+                src={publicUrl("/img/google-play-badge.png")}
                 alt="Install via Google Play"
               />
             </Box>
@@ -53,7 +54,7 @@ const InstallDialog = ({ open, handleClose }: InstallDialogProps) => {
               }
             >
               <img
-                src="/img/app-store.svg"
+                src={publicUrl("/img/app-store.svg")}
                 style={{ margin: "6%", width: "88%" }}
                 alt="Install via App Store"
               />

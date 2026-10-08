@@ -47,6 +47,7 @@ import {
   triggerShare,
   checkAppInstalled,
   iOSRNWebView,
+  publicUrl,
 } from "../utils";
 import InstallDialog from "../components/settings/InstallDialog";
 import Donations from "../Donations";
@@ -457,7 +458,7 @@ const Settings = () => {
           }}
         >
           <ListItemAvatar>
-            <Avatar sx={iconSx} src="/img/logo128.png" alt="App Logo"></Avatar>
+            <Avatar sx={iconSx} src={publicUrl("/img/logo128.png")} alt="App Logo"></Avatar>
           </ListItemAvatar>
           <ListItemText primary={t("圖標來源")} secondary={"陳瓜 Chan Gua"} />
         </ListItemButton>

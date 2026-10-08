@@ -19,6 +19,7 @@ import AppContext from "../../../context/AppContext";
 import useLanguage from "../../../hooks/useTranslation";
 import { buildStyle, VECTOR_PMTILES_URL } from "./style";
 import { CachedPMTilesSource } from "./CachedPMTilesSource";
+import { publicUrl } from "../../../utils";
 
 /**
  * Register the `pmtiles://` URL scheme handler with maplibre-gl
@@ -152,7 +153,7 @@ const BaseMap = ({
       {children}
       {showLandsDepartmentBadge && (
         <Box sx={landsBadgeSx}>
-          <img src="/img/Lands_Department.svg" alt="Lands Department" />
+          <img src={publicUrl("/img/Lands_Department.svg")} alt="Lands Department" />
         </Box>
       )}
     </Map>

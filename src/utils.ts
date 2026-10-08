@@ -12,6 +12,10 @@ import { isRouteAvaliable } from "./timetable";
 import { TFunction } from "i18next";
 import { ServiceIds } from "./components/route-eta/timetableDrawer/TimeTable";
 
+/** Public-folder URL. Base stays "/" on hkbus.app and includes the repo path on GitHub project pages. */
+export const publicUrl = (path: string) =>
+  `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
+
 export const getDistance = (a: GeoLocation, b: GeoLocation) => {
   const R = 6371e3; // metres
   const φ1 = (a.lat * Math.PI) / 180; // φ, λ in radians

@@ -11,7 +11,7 @@ import { Location as GeoLocation } from "hk-bus-eta";
 import AppContext from "../../../context/AppContext";
 import DbContext from "../../../context/DbContext";
 import useLanguage from "../../../hooks/useTranslation";
-import { checkPosition } from "../../../utils";
+import { checkPosition, publicUrl } from "../../../utils";
 import { SearchRoute } from "../../../pages/RouteSearchPage";
 import BaseMap from "./BaseMap";
 import SelfCircle from "./SelfCircle";
@@ -398,7 +398,7 @@ const rootSx: SxProps<Theme> = {
     filter: "grayscale(100%)",
   },
   [`& .self-center`]: {
-    backgroundImage: "url(/img/self.svg)",
+    backgroundImage: `url(${publicUrl("/img/self.svg")})`,
     backgroundSize: "contain",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",

@@ -22,7 +22,7 @@ import {
 } from "@mui/icons-material";
 import { visuallyHidden } from "@mui/utils";
 import AppContext from "../../context/AppContext";
-import { vibrate, checkMobile } from "../../utils";
+import { vibrate, checkMobile, publicUrl } from "../../utils";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { useWeatherCode, WeatherIcons } from "../Weather";
 import useOnline from "../../hooks/useOnline";
@@ -290,8 +290,8 @@ const rootSx: SxProps<Theme> = {
 const appTitleSx: SxProps<Theme> = {
   backgroundImage: (t) =>
     t.palette.mode === "light"
-      ? "url(/img/logo128.png)"
-      : "url(/img/dark-32.jpg)",
+      ? `url(${publicUrl("/img/logo128.png")})`
+      : `url(${publicUrl("/img/dark-32.jpg")})`,
   backgroundSize: "contain",
   width: 32,
   height: 32,

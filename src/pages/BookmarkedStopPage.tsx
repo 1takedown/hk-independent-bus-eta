@@ -18,6 +18,7 @@ import useLanguage from "../hooks/useTranslation";
 import CollectionContext from "../CollectionContext";
 import DbContext from "../context/DbContext";
 import NoticeCard from "../components/layout/NoticeCard";
+import { publicUrl } from "../utils";
 
 const BookmarkedStop = () => {
   const { colorMode } = useContext(AppContext);
@@ -76,7 +77,7 @@ const BookmarkedStop = () => {
         bgcolor: bgColor,
         backgroundImage:
           stopTab === ""
-            ? `url(/img/stop-bookmark-guide-${colorMode}-${language}.png)`
+            ? `url(${publicUrl(`/img/stop-bookmark-guide-${colorMode}-${language}.png`)})`
             : "unset",
         opacity: stopTab === "" ? "0.8" : "unset",
       }}

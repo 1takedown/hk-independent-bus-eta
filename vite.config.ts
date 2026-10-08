@@ -8,16 +8,28 @@ import eslint from "vite-plugin-eslint"
 
 const mobile = !!/android|ios/.exec(process.env.TAURI_ENV_PLATFORM);
 
+// "/" for hkbus.app. A project site such as username.github.io/hk-independent-bus-eta/
+// must be built with VITE_BASE_PATH=/hk-independent-bus-eta/.
+const normalizeBase = (value: string | undefined): string => {
+  if (!value || value === "/") return "/";
+  const withLeadingSlash = value.startsWith("/") ? value : `/${value}`;
+  return withLeadingSlash.endsWith("/")
+    ? withLeadingSlash
+    : `${withLeadingSlash}/`;
+};
+
 export default defineConfig(({mode}: ConfigEnv) => {
   const env = loadEnv(mode, process.cwd(), "");
+  const base = normalizeBase(process.env.VITE_BASE_PATH || env.VITE_BASE_PATH);
   return {
+    base,
     plugins: [
       react(), 
       eslint({
         
       }), 
       basicSsl(), 
-      VitePWA(getPwaOptions(env))
+      VitePWA(getPwaOptions(env, base))
     ],
     server: {
       https: !mobile,
@@ -32,11 +44,21 @@ export default defineConfig(({mode}: ConfigEnv) => {
   }
 });
 
-const getPwaOptions = (env: Record<string, string>): Partial<VitePWAOptions> => {
+const getPwaOptions = (env: Record<string, string>, base: string): Partial<VitePWAOptions> => {
   const mapUrlPatternFunc = `(({url}) => url.origin.includes("${env.VITE_OSM_PROVIDER_HOST}"))`;
+  const assetRoot = base === "/" ? "" : base.replace(/\/$/, "");
+  // Workbox serializes urlPattern with Function#toString, so the base path
+  // has to be written into the function source. A closed-over variable is not.
+  const sameOriginPrefix = (...prefixes: string[]) =>
+    new Function(
+      "return " +
+        `(({url}) => url.origin === self.location.origin && (${prefixes
+          .map((prefix) => `url.pathname.startsWith(${JSON.stringify(prefix)})`)
+          .join(" || ")}))`
+    )();
   return {
     mode: "production",
-    base: "/",
+    base,
     manifest: {
       short_name: "巴士預報",
       name: "巴士到站預報 App",
@@ -77,9 +99,7 @@ const getPwaOptions = (env: Record<string, string>): Partial<VitePWAOptions> => 
         // for lazy caching anything
         // reference to https://vite-pwa-org.netlify.app/workbox/generate-sw.html#cache-external-resources 
         {
-          urlPattern: ({url}) => (
-            url.origin === self.location.origin && url.pathname.startsWith("/assets")
-          ),
+          urlPattern: sameOriginPrefix(`${assetRoot}/assets`),
           handler: "CacheFirst",
           options: {
             cacheName: "app-runtime",
@@ -89,10 +109,10 @@ const getPwaOptions = (env: Record<string, string>): Partial<VitePWAOptions> => 
           }
         },
         {
-          urlPattern: ({ url }) =>
-            url.origin === self.location.origin &&
-            (url.pathname.startsWith("/zh/route/") ||
-              url.pathname.startsWith("/en/route/")),
+          urlPattern: sameOriginPrefix(
+            `${assetRoot}/zh/route/`,
+            `${assetRoot}/en/route/`
+          ),
           handler: "StaleWhileRevalidate",
           options: {
             cacheName: "app-runtime-public",
@@ -106,9 +126,10 @@ const getPwaOptions = (env: Record<string, string>): Partial<VitePWAOptions> => 
           }
         },
         {
-          urlPattern: ({ url }) =>
-            url.origin === self.location.origin &&
-            (url.pathname.startsWith("/fonts/") || url.pathname.startsWith("/img/")),
+          urlPattern: sameOriginPrefix(
+            `${assetRoot}/fonts/`,
+            `${assetRoot}/img/`
+          ),
           handler: "CacheFirst",
           options: {
             cacheName: "font-and-asset",

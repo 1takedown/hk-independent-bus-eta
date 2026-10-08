@@ -6,6 +6,7 @@ import {
 } from "@mui/icons-material";
 import { useNavigate, useParams } from "react-router-dom";
 import useLanguage from "../../hooks/useTranslation";
+import { publicUrl } from "../../utils";
 
 const EmotionTabbar = () => {
   const { t } = useTranslation();
@@ -38,7 +39,7 @@ const EmotionTabbar = () => {
         icon={
           <Box
             sx={{
-              backgroundImage: "url(/img/sympathy/tab-icon.png)",
+              backgroundImage: `url(${publicUrl("/img/sympathy/tab-icon.png")})`,
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
               backgroundSize: "contain",

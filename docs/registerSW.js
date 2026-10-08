@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/hk-independent-bus-eta/sw.js', { scope: '/hk-independent-bus-eta/' })})}
