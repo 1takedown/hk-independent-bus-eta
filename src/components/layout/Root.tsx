@@ -14,20 +14,16 @@ import GACookieConsent from "./GACookieConsent";
 import CollectionDrawer from "./CollectionDrawer";
 import CollectionDialog from "./collections/CollectionDialog";
 import { Suspense, useEffect } from "react";
-import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 import PinDialog from "./PinDialog";
-
-const isStandaloneApp = () =>
-  window.matchMedia("(display-mode: standalone)").matches ||
-  (navigator as Navigator & { standalone?: boolean }).standalone === true;
 
 const Root = () => {
   const {
     t,
     i18n: { language },
   } = useTranslation();
-  const isIosStandalone = isStandaloneApp();
+  const isIosStandalone =
+    (navigator as Navigator & { standalone?: boolean }).standalone === true;
 
   // Keep the document language in sync with the UI language so screen
   // readers announce content with the correct voice / pronunciation.
@@ -38,8 +34,7 @@ const Root = () => {
   return (
     <Container maxWidth="xs" disableGutters sx={rootSx}>
       <CssBaseline />
-      {isIosStandalone &&
-        createPortal(<Box aria-hidden="true" sx={safeAreaSx} />, document.body)}
+      {isIosStandalone && <Box aria-hidden="true" sx={safeAreaSx} />}
       <Link href="#main-content" sx={skipLinkSx}>
         {t("跳至主要內容")}
       </Link>
@@ -65,9 +60,9 @@ const rootSx: SxProps<Theme> = {
   height: "100%",
 };
 
-// iOS 27 draws a system blur over the top of a home-screen app unless a
-// painted fixed element sits within 4px of the top, is at least 6px tall,
-// and covers most of the width. safe-area-inset-top is 0 in some layouts.
+// iOS 27 blurs the top of home-screen apps unless an opaque fixed element
+// touches the top edge across most of the width. WebKit only reads its colour
+// directly when it is taller than 10px, and safe-area-inset-top can be 0.
 const safeAreaSx: SxProps<Theme> = {
   position: "fixed",
   top: 0,
