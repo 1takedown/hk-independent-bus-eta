@@ -34,7 +34,7 @@ const Root = () => {
   return (
     <Container maxWidth="xs" disableGutters sx={rootSx}>
       <CssBaseline />
-      {isIosStandalone && <Box aria-hidden="true" sx={safeAreaSx} />}
+      {isIosStandalone && <Box sx={safeAreaSx} />}
       <Link href="#main-content" sx={skipLinkSx}>
         {t("跳至主要內容")}
       </Link>
@@ -62,15 +62,15 @@ const rootSx: SxProps<Theme> = {
 
 // iOS 27 blurs the top of home-screen apps unless an opaque fixed element
 // touches the top edge across most of the width. WebKit only reads its colour
-// directly when it is taller than 10px, and safe-area-inset-top can be 0.
+// directly when it is taller than 10px.
 const safeAreaSx: SxProps<Theme> = {
   position: "fixed",
   top: 0,
   left: 0,
   width: "100%",
   height: "max(11px, env(safe-area-inset-top, 0px))",
-  backgroundColor: (theme) => theme.palette.background.default,
-  zIndex: (theme) => theme.zIndex.appBar,
+  backgroundColor: "background.default",
+  zIndex: "appBar",
   pointerEvents: "none",
 };
 
